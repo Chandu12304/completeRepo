@@ -87,6 +87,8 @@
 
     <nav class="bg-black bg-opacity-40 shadow-lg backdrop-blur-md" id="responsive">
         <a href="#home" class=".margin-top text-white hover:text-orange-400">HOME</a>
+<a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
+                class="text-white hover:text-orange-400" id="profile">PROFILE</a> <span>/</span>
         <a href="#accesories" class="text-white hover:text-orange-400">ACCESSORIES</a>
         <a href="#contact" class="text-white hover:text-orange-400">CONTACT</a>
         <div class="flex items-center space-x-4">
