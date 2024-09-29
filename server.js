@@ -17,7 +17,7 @@ require('firebase/firestore');
 const admin = require('firebase-admin');
 
 // Your service account key file
-const serviceAccount = require('./config/serviceAccountKey.json');
+const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_KEY, 'base64').toString('utf8'));
 
 // Configure dotenv for environment variables
 dotenv.config();
