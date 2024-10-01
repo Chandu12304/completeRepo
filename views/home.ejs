@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="/images/fa.jpg" type="favicon">
@@ -47,16 +47,6 @@
                     Sign Up
                 </button>
             </form>
-        </div>
-
-        <!-- Theme Mode Toggle (light/dark mode) -->
-        <div class="block text-2xl text-white">
-            <div class="lightMode">
-                <i class="fa-solid fa-sun"></i>
-            </div>
-            <div class="darkMode hidden">
-                <i class="fa-solid fa-moon"></i>
-            </div>
         </div>
 
         <!-- Sidebar for small screens (hamburger menu) -->
@@ -182,67 +172,46 @@
     </div>
 
 
-    <div class="w-full mx-auto px-4 py-16 text-center darkComplex" id="work">
-        <!-- Button Section -->
-        <div class="py-6 mb-10">
-            <button class="border px-8 py-3 text-white-lg uppercase font-bold hover:bg-orange-500">Let's
-                Work Together</button>
-        </div>
+    <div class="w-full mx-auto px-4 py-16 text-center darkComplex">
+        <div id="work">
+            <!-- Button Section -->
+            <div class="py-6 mb-10">
+                <button class="border px-8 py-3 text-white-lg uppercase font-bold hover:bg-orange-500">Let's
+                    Work Together</button>
+            </div>
 
-        <div class="py-20 m-0 bg-cover bg-center w-full relative" style="background-image: url(/images/dummybg.webp);">
-            <div class="absolute inset-0 bg-black opacity-70"></div> <!-- Overlay for better contrast -->
-            <div class="flex flex-wrap justify-center items-center gap-6 text-center stats relative z-10">
-                <!-- Stat Item 1 -->
-                <div>
-                    <h3 class="text-5xl font-bold count1 text-white shadow-md"></h3>
-                    <p class="mt-2 text-lg uppercase text-white">Clients</p>
-                    <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
-                </div>
-                <!-- Stat Item 2 -->
-                <div>
-                    <h3 class="text-5xl font-bold count2 text-white shadow-md"></h3>
-                    <p class="mt-2 text-lg uppercase text-white">Awards</p>
-                    <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
-                </div>
-                <!-- Stat Item 3 -->
-                <div>
-                    <h3 class="text-5xl font-bold count3 text-white shadow-md"></h3>
-                    <p class="mt-2 text-lg uppercase text-white">Projects</p>
-                    <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
-                </div>
-                <!-- Stat Item 4 -->
-                <div>
-                    <h3 class="text-5xl font-bold count4 text-white shadow-md"></h3>
-                    <p class="mt-2 text-lg uppercase text-white">Mails</p>
-                    <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
+            <div class="py-20 m-0 bg-cover bg-center w-full relative"
+                style="background-image: url(/images/dummybg.webp);">
+                <div class="absolute inset-0 bg-black opacity-70"></div> <!-- Overlay for better contrast -->
+                <div class="flex flex-wrap justify-center items-center gap-6 text-center stats relative z-10">
+                    <!-- Stat Item 1 -->
+                    <div>
+                        <h3 class="text-5xl font-bold text-white shadow-md">100</h3>
+                        <p class="mt-2 text-lg uppercase text-white">Clients</p>
+                        <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
+                    </div>
+                    <!-- Stat Item 2 -->
+                    <div>
+                        <h3 class="text-5xl font-bold text-white shadow-md">100</h3>
+                        <p class="mt-2 text-lg uppercase text-white">Awards</p>
+                        <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
+                    </div>
+                    <!-- Stat Item 3 -->
+                    <div>
+                        <h3 class="text-5xl font-bold text-white shadow-md">100</h3>
+                        <p class="mt-2 text-lg uppercase text-white">Projects</p>
+                        <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
+                    </div>
+                    <!-- Stat Item 4 -->
+                    <div>
+                        <h3 class="text-5xl font-bold text-white shadow-md">100</h3>
+                        <p class="mt-2 text-lg uppercase text-white">Mails</p>
+                        <div class="w-12 h-1 bg-yellow-500 mx-auto mt-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
-    <script>
-        // JavaScript to animate the number from 0 to a specific value
-        const animateCounter = (element, targetValue, duration) => {
-            let startValue = 0;
-            const increment = targetValue / (duration / 10);
-            const interval = setInterval(() => {
-                startValue += increment;
-                if (startValue >= targetValue) {
-                    clearInterval(interval);
-                    element.textContent = targetValue.toFixed(0);
-                } else {
-                    element.textContent = Math.round(startValue);
-                }
-            }, 10);
-        };
-
-        // Run the animation for the stat elements
-        animateCounter(document.querySelector(".count1"), 100, 2000);
-        animateCounter(document.querySelector(".count2"), 100, 2000);
-        animateCounter(document.querySelector(".count3"), 100, 2000);
-        animateCounter(document.querySelector(".count4"), 100, 2000);
-
-    </script>
 
     <section class="latest-news bg-cover bg-center w-full min-h-screen py-12 relative" id="latestnews"
         style="background-image: url('./');">
@@ -302,47 +271,49 @@
 
 
 
-    <section class="py-16 text-center darkComplex" id="about">
-        <div class="container mx-auto">
-            <h2 class="text-3xl text-orange-500 mb-6">ABOUT TEAM</h2>
-            <p class="mb-12 max-w mx-auto">
-                A passionate team dedicated to providing exceptional services and innovative solutions to meet your
-                needs.
-                Although new to the industry, our mission is to empower our clients and help them achieve their
-                goals
-                through
-                cutting-edge technology and creative problem-solving.
-            </p>
-            <hr>
-            <h2 class="text-3xl pt-10 text-orange-500 pb-6">ABOUT TEAM MEMBERS</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-10">
-                <!-- Team Member 1 -->
-                <div class="team-member">
-                    <img src="/images/chandan.jpg" alt="Chandan"
-                        class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
-                    <h3 class="text-lg  mt-4">Chandan U</h3>
-                    <p class="text-sm text-gray-500">Team Leader</p>
-                </div>
-                <!-- Team Member 2 -->
-                <div class="team-member">
-                    <img src="/images/darshan.png" alt="Darshan"
-                        class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
-                    <h3 class="text-lg  mt-4">Darshan Gowda M</h3>
-                    <p class="text-sm text-gray-500">Member</p>
-                </div>
-                <!-- Team Member 3 -->
-                <div class="team-member">
-                    <img src="/images/veerendra.jpg" alt="Veerandra"
-                        class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
-                    <h3 class="text-lg  mt-4">Veerandra S</h3>
-                    <p class="text-sm text-gray-500">Member</p>
-                </div>
-                <!-- Team Member 4 -->
-                <div class="team-member">
-                    <img src="/images/poovarsan.jpg" alt="Poovarasan"
-                        class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
-                    <h3 class="text-lg  mt-4">Poovarasan S</h3>
-                    <p class="text-sm text-gray-500">Member</p>
+    <section class="py-16 text-center darkComplex">
+        <div id="about">
+            <div class="container mx-auto">
+                <h2 class="text-3xl text-orange-500 mb-6">ABOUT TEAM</h2>
+                <p class="mb-12 max-w mx-auto">
+                    A passionate team dedicated to providing exceptional services and innovative solutions to meet your
+                    needs.
+                    Although new to the industry, our mission is to empower our clients and help them achieve their
+                    goals
+                    through
+                    cutting-edge technology and creative problem-solving.
+                </p>
+                <hr>
+                <h2 class="text-3xl pt-10 text-orange-500 pb-6">ABOUT TEAM MEMBERS</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-10">
+                    <!-- Team Member 1 -->
+                    <div class="team-member">
+                        <img src="/images/chandan.jpg" alt="Chandan"
+                            class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
+                        <h3 class="text-lg  mt-4">Chandan U</h3>
+                        <p class="text-sm text-gray-500">Team Leader</p>
+                    </div>
+                    <!-- Team Member 2 -->
+                    <div class="team-member">
+                        <img src="/images/darshan.png" alt="Darshan"
+                            class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
+                        <h3 class="text-lg  mt-4">Darshan Gowda M</h3>
+                        <p class="text-sm text-gray-500">Member</p>
+                    </div>
+                    <!-- Team Member 3 -->
+                    <div class="team-member">
+                        <img src="/images/veerendra.jpg" alt="Veerandra"
+                            class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
+                        <h3 class="text-lg  mt-4">Veerandra S</h3>
+                        <p class="text-sm text-gray-500">Member</p>
+                    </div>
+                    <!-- Team Member 4 -->
+                    <div class="team-member">
+                        <img src="/images/poovarsan.jpg" alt="Poovarasan"
+                            class="w-36 h-36 mx-auto rounded-full object-cover transform hover:scale-110 transition duration-300 border-4 border-transparent hover:border-orange-500">
+                        <h3 class="text-lg  mt-4">Poovarasan S</h3>
+                        <p class="text-sm text-gray-500">Member</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -356,25 +327,27 @@
             referrerpolicy="no-referrer-when-downgrade"></iframe>
 
     </div>
-    <footer class="footer" id="contact">
-        <div class="container">
-            <a href="#" class="Brand text-orange-500 hover:text-orange-600">Binary Coders</a>
-            <ul class="footm">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#work">Works</a></li>
-                <li><a href="#latestnews">latest News</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <ul class="media-icons">
-                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-            </ul>
-            <p> University of Visvesvarya college of Engineering <br> K R Circle , Bangalore 560001 <br> Contact
-                no.: 1234567891</p>
+    <footer class="footer">
+        <div id="contact">
+            <div class="container">
+                <a href="#" class="Brand text-orange-500 hover:text-orange-600">Binary Coders</a>
+                <ul class="footm">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#work">Works</a></li>
+                    <li><a href="#latestnews">latest News</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <ul class="media-icons">
+                    <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                </ul>
+                <p> University of Visvesvarya college of Engineering <br> K R Circle , Bangalore 560001 <br> Contact
+                    no.: 1234567891</p>
+            </div>
         </div>
     </footer>
 
@@ -397,13 +370,21 @@
         <button class="message-icon" onclick="toggleChat()">💬</button>
     </div>
 
-
+    <!-- Theme Mode Toggle (light/dark mode) -->
+    <div class="block text-2xl fixed bottom-0 left-0 mb-4 ml-4" style="z-index: 5;">
+        <div class="lightMode">
+            <i class="fa-solid fa-sun"></i>
+        </div>
+        <div class="darkMode hidden">
+            <i class="fa-solid fa-moon"></i>
+        </div>
+    </div>
 
 
     <script>
         var darkMode = document.querySelector(".darkMode");
         var lightMode = document.querySelector(".lightMode");
-        var darkComplex = document.querySelectorAll(".darkComplex"); // NodeList of elements
+        var darkComplex = document.querySelectorAll(".darkComplex");
         var sectiontitle = document.querySelector(".section-title");
         var footer = document.querySelector(".footer");
         var footerParagraphs = document.querySelectorAll(".footer p");
