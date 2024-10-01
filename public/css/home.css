@@ -23,14 +23,21 @@ body {
     scale: 1;
   }
 }
+
 #work,
 #latestnews,
 #contact,
 #services,
+.cards,
+.map,
 #about {
   animation: appear linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
+}
+
+.modal{
+  display: none;
 }
 
 .sidebar {
@@ -60,7 +67,7 @@ body {
   }
 }
 
-/* <-------------------------------------------------------------------------main page------------------------------------------------------> */
+
 .main {
   height: 100vh;
   background-image: url("../images/mainbg.webp");
