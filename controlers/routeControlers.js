@@ -323,19 +323,44 @@ const getDashboardPage = async (req, res) => {
 
         // Check if the profile exists in Firestore
         const profileSnapshot = await db.collection('profile').where('email', '==', email).get();
-
         let profileExists = !profileSnapshot.empty; // true if profile exists
 
-        // Render your EJS template with the profile existence flag
-        res.render('main.ejs', { profileExists });
+        // Initialize counts to 0
+        let clothesCount = 0;
+        let gadgetsCount = 0;
+        let miscCount = 0;
+
+        // Query the 'Accessories' collection for the user's accessories data
+        const accessoriesRef = db.collection('Accessories').doc(email).collection('categories');
+        const categoriesSnapshot = await accessoriesRef.get();
+
+        // Loop through categories and update counts
+        categoriesSnapshot.forEach(doc => {
+            const categoryData = doc.data();
+            if (doc.id === 'clothes') {
+                clothesCount = categoryData.count || 0;
+            } else if (doc.id === 'gadgets') {
+                gadgetsCount = categoryData.count || 0;
+            } else if (doc.id === 'misc') {
+                miscCount = categoryData.count || 0;
+            }
+        });
+
+        // Render your EJS template with the profile existence flag and the counts
+        res.render('main.ejs', {
+            profileExists,
+            clothesCount,
+            gadgetsCount,
+            miscCount
+        });
     } else {
         res.redirect('/auth'); // Redirect if the user is not authenticated
     }
 };
 
+
 //get userProfileDetails
 const getUserProfileDetails = async (req, res) => {
-
     const email = req.session.user.email; // Get the logged-in user's email
 
     try {
@@ -344,12 +369,35 @@ const getUserProfileDetails = async (req, res) => {
 
         if (!profileSnapshot.empty) {
             const profileData = profileSnapshot.docs[0].data(); // Get profile data
+
+            // Query the 'Accessories' collection for the user's accessories data
+            const accessoriesRef = db.collection('Accessories').doc(email).collection('categories');
+            const categoriesSnapshot = await accessoriesRef.get();
+
+            // Initialize counts to 0
+            let clothesCount = 0;
+            let gadgetsCount = 0;
+            let miscCount = 0;
+
+            // Iterate over the categories and update counts accordingly
+            categoriesSnapshot.forEach(doc => {
+                const categoryData = doc.data();
+                if (doc.id === 'clothes') {
+                    clothesCount = categoryData.count || 0;
+                } else if (doc.id === 'gadgets') {
+                    gadgetsCount = categoryData.count || 0;
+                } else if (doc.id === 'misc') {
+                    miscCount = categoryData.count || 0;
+                }
+            });
+
+            // Return the user profile data along with accessory counts
             res.json({
                 name: profileData.name,
                 email: profileData.email,
-                clothesCount: 66, // Example static data (replace with dynamic if needed)
-                gadgetsCount: 19, // Example static data
-                miscCount: 9      // Example static data
+                clothesCount: clothesCount,
+                gadgetsCount: gadgetsCount,
+                miscCount: miscCount
             });
         } else {
             res.status(404).json({ error: 'Profile not found' });
@@ -358,23 +406,31 @@ const getUserProfileDetails = async (req, res) => {
         console.error('Error fetching profile:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
+// Image fetcher function
 const imagesFetcher = (req, res) => {
-    const imagesDir = path.join(__dirname, '..', 'uploads');
+    if (!req.session || !req.session.user || !req.session.user.email) {
+        return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    const userEmail = req.session.user.email.replace(/[^a-zA-Z0-9]/g, '_');
+    const imagesDir = path.join(__dirname, '..', 'uploads', userEmail);
+
     fs.readdir(imagesDir, (err, files) => {
         if (err) {
-            console.error('Error reading images directory:', err); // Log the error
+            console.error('Error reading images directory:', err);
             return res.status(500).json({ message: 'Unable to scan directory: ' + err });
         }
+
         // Filter and map files to full URLs
         const images = files
-            .filter(file => file.endsWith('.jpg') || file.endsWith('.png') || file.endsWith('.jpeg')) // Adjust based on your needs
-            .map(file => ({ name: file, url: `/uploads/${file}` }));
+            .filter(file => file.endsWith('.jpg') || file.endsWith('.png') || file.endsWith('.jpeg'))
+            .map(file => ({ name: file, url: `/uploads/${userEmail}/${file}` }));
 
         res.json(images); // Respond with the list of images
     });
-}
+};
 
 // Function to store the category and count in Firestore
 const storeCategoryCount = async (req, category, count) => {
@@ -431,26 +487,41 @@ const getCategoryCount = async (req, category) => {
     }
 };
 
-//deletion function
+// delete images
+
+// Delete Image Function
+// Delete Image Function
 const deleteImage = async (req, res) => {
     const imageName = req.params.imageName;
-    const userEmail = req.session.user.email; // Get the user email from the session
+    const userEmail1 = req.session.user.email
+    const userEmail2 = req.session.user.email.replace(/[^a-zA-Z0-9]/g, '_'); // Sanitize email for Firestore
 
     try {
         // Construct the file path for deletion
-        const filePath = path.join(__dirname, '..', 'uploads', imageName); // Adjust path if needed
-        console.log('File path to delete:', filePath); // Debugging line to confirm the file path
+        const filePath = path.join(__dirname, '..', 'uploads', userEmail2, imageName);
+        console.log('File path to delete:', filePath);
 
-        // Delete the image file from the storage
-        fs.unlinkSync(filePath); // Synchronously remove the image file
+        // Delete the image file from the server
+        fs.unlinkSync(filePath);
 
-        // Retrieve the category from the image name (assuming the format is 'category-count-uniqueSuffix.extension')
-        const category = imageName.split('-')[0]; // Extract category from the filename
+        // Extract category from the image name (assumes the format "category-uniqueIdentifier")
+        const category = imageName.split('-')[0];
+        console.log('Extracted category:', category);
 
-        // Get the current count from Firestore
-        const docRef = db.collection('Accessories').doc(userEmail).collection('categories').doc(category);
+        // Reference to the category document in Firestore
+        const docRef = db.collection('Accessories').doc(userEmail1).collection('categories').doc(category);
         const doc = await docRef.get();
 
+        // Fetch all categories for logging
+        const categoriesSnapshot = await db.collection('Accessories').doc(userEmail1).collection('categories').get();
+        const categoriesWithCounts = categoriesSnapshot.docs.map(doc => ({
+            category: doc.data().category,
+            count: doc.data().count
+        }));
+
+        console.log('Available categories and counts:', categoriesWithCounts);
+
+        // Check if the category document exists
         if (!doc.exists) {
             console.error(`No document found for category "${category}".`);
             return res.status(404).send('Category not found.');
@@ -464,16 +535,19 @@ const deleteImage = async (req, res) => {
         });
 
         console.log(`Updated count for category "${category}": ${currentCount - 1}`);
-
         res.status(200).json({ message: 'Image deleted successfully and count updated.' });
     } catch (error) {
         console.error('Error deleting image:', error);
         if (error.code === 'ENOENT') {
-            return res.status(404).send('Image file not found.'); // Handle file not found error
+            return res.status(404).send('Image file not found.');
         }
         res.status(500).send('Error deleting image');
     }
-}
+};
+
+
+
+
 
 
 

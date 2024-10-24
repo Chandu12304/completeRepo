@@ -15,7 +15,7 @@
     <style>
         .tooltip {
             position: absolute;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(208, 180, 180, 0.7);
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
@@ -52,8 +52,9 @@
             <a href="#home" class="text-white hover:text-orange-400">HOME</a>
             <span class="text-white">/</span>
             <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
-                class="text-white hover:text-orange-400" id="profile">PROFILE</a> <span>/</span>
-            <a href="#accesories" class="text-white hover:text-orange-400">ACCESSORIES</a>
+                class="text-white hover:text-orange-400" id="profile">PROFILE</a>
+            <span class="text-white">/</span>
+            <a href="#accessories" class="text-white hover:text-orange-400">COLLECTIONS</a>
             <span class="text-white">/</span>
             <a href="#contact" class="text-white hover:text-orange-400">CONTACT</a>
         </nav>
@@ -87,9 +88,9 @@
 
     <nav class="bg-black bg-opacity-40 shadow-lg backdrop-blur-md" id="responsive">
         <a href="#home" class=".margin-top text-white hover:text-orange-400">HOME</a>
-<a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
-                class="text-white hover:text-orange-400" id="profile">PROFILE</a> <span>/</span>
-        <a href="#accesories" class="text-white hover:text-orange-400">ACCESSORIES</a>
+        <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
+            class="text-white hover:text-orange-400" id="profile">PROFILE</a>
+        <a href="#accesories" class="text-white hover:text-orange-400">COLLECTIONS</a>
         <a href="#contact" class="text-white hover:text-orange-400">CONTACT</a>
         <div class="flex items-center space-x-4">
             <form action="/auth" method="GET">
@@ -130,208 +131,185 @@
             <h3>WELCOME BACK TO YOUR WARDROBE</h3>
             <h2>MAKE EVER<span class="glow">Y </span>ITE<span class="glow">M C</span>OU<span class="glow">NT</span>
             </h2>
-            <a href="#accessories" class="cta-button">SEE YOUR WARDROBE</a>
+            <a href="#accessories" class="cta-button">SEE YOUR COLLECTIONS</a>
         </div>
     </main>
-    <div class="relative bg-cover bg-center py-16" style="background-image: url('./');">
+    <section id="accessories" class="py-10">
+        <div class="relative bg-cover bg-center py-16" style="background-image: url('./');">
 
-        <!-- Overlay to Darken the Background for Text Readability -->
-        <div class="absolute inset-0 bg-black opacity-50"></div>
+            <!-- Overlay to Darken the Background for Text Readability -->
+            <div class="absolute inset-0 opacity-50"></div>
 
-        <div class="relative max-w-7xl mx-auto px-4">
-            <!-- Header Section -->
-            <div class="text-center mb-10" id="accessories">
-                <div
-                    class="fixed bottom-4 left-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg flex items-center space-x-2 transition-transform transform hover:scale-105">
-                    <div class="flex-shrink-0">
-                        <!-- Icon (optional) -->
-                        <svg class="h-6 w-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M10 2a8 8 0 00-8 8v4h1v-4a7 7 0 0114 0v4h1v-4a8 8 0 00-8-8zM5 10a5 5 0 1110 0A5 5 0 015 10z" />
-                        </svg>
+            <div class="relative max-w-7xl mx-auto px-4">
+                <!-- Header Section -->
+                <div class="text-center mb-10">
+                    <div
+                        class="fixed bottom-4 left-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg flex items-center space-x-2 transition-transform transform hover:scale-105">
+                        <div class="flex-shrink-0">
+                            <!-- Icon (optional) -->
+                            <svg class="h-6 w-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10 2a8 8 0 00-8 8v4h1v-4a7 7 0 0114 0v4h1v-4a8 8 0 00-8-8zM5 10a5 5 0 1110 0A5 5 0 015 10z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-gray-800">Create your profile and open your wardrobe door!</p>
+                        </div>
+                        <button class="ml-2 text-orange-500 hover:text-orange-700 focus:outline-none"
+                            onclick="this.parentElement.style.display='none';">✕</button>
                     </div>
-                    <div>
-                        <p class="text-gray-800">Create your profile and open your wardrobe door!</p>
-                    </div>
-                    <button class="ml-2 text-orange-500 hover:text-orange-700 focus:outline-none"
-                        onclick="this.parentElement.style.display='none';">✕</button>
-                </div>
-                <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500">Accessories</h2>
-                <p class="mt-4 text-gray-300 uppercase">Discover our collection of accessories, carefully curated for
-                    style and utility.</p>
-            </div>
-
-            <!-- Product Cards Section -->
-            <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Product Card 1 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/shirts.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Clothes</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-1"
-                                class="text-orange-500">5</span></p>
-                    </div>
-                    <div class="mt-4 flex justify-center items-center space-x-4">
-                        <button onclick="decrement(1)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">-</button>
-                        <span id="count-1" class="text-gray-200 text-lg">0</span>
-                        <button onclick="increment(1)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">+</button>
-                        <button onclick="addToCart(event, 1)"
-                            class="ml-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600">Add
-                            Item</button>
-                    </div>
+                    <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500">Your Collection</h2>
+                    <p class="mt-4 text-gray-300 uppercase">Organize and customize your collection to elevate your
+                        wardrobe!
+                    </p>
                 </div>
 
-                <!-- Product Card 2 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/gadgets.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Gadgets</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-2"
-                                class="text-orange-500">4</span></p>
+                <!-- Product Cards Section -->
+                <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Product Card 1 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/shirts.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Clothes</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-1"
+                                    class="text-orange-500">
+                                    <%= clothesCount %>
+                                </span></p>
+                        </div>
                     </div>
-                    <div class="mt-4 flex justify-center items-center space-x-4">
-                        <button onclick="decrement(2)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">-</button>
-                        <span id="count-2" class="text-gray-200 text-lg">0</span>
-                        <button onclick="increment(2)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">+</button>
-                        <button onclick="addToCart(event, 2)"
-                            class="ml-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600">Add
-                            Item</button>
+
+                    <!-- Product Card 2 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/gadgets.jpg" alt="Gadgets" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Gadgets</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-2"
+                                    class="text-orange-500">
+                                    <%= gadgetsCount %>
+                                </span></p>
+                        </div>
                     </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/miscel.jpg" alt="Miscellaneous" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Miscellaneous</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-3"
+                                    class="text-orange-500">
+                                    <%= miscCount %>
+                                </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
+                        class="cta-button bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600">
+                        OPEN YOUR WARDROBE!
+                    </a>
                 </div>
 
-                <!-- Product Card 3 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/miscel.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Miscellaneous</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-3"
-                                class="text-orange-500">2</span></p>
-                    </div>
-                    <div class="mt-4 flex justify-center items-center space-x-4">
-                        <button onclick="decrement(3)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">-</button>
-                        <span id="count-3" class="text-gray-200 text-lg">0</span>
-                        <button onclick="increment(3)" class="text-gray-300 bg-gray-600 rounded-full w-8 h-8">+</button>
-                        <button onclick="addToCart(event, 3)"
-                            class="ml-4 bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600">Add
-                            Item</button>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-
-
-
-    <script>
-        // Increment and Decrement functionality
-        function increment(id) {
-            const countElement = document.getElementById(`count-${id}`);
-            const tooltipElement = document.getElementById(`tooltip-count-${id}`);
-            let count = parseInt(countElement.innerText);
-            countElement.innerText = ++count;
-            tooltipElement.innerText = count;
-        }
-
-        function decrement(id) {
-            const countElement = document.getElementById(`count-${id}`);
-            const tooltipElement = document.getElementById(`tooltip-count-${id}`);
-            let count = parseInt(countElement.innerText);
-            if (count > 0) {
-                countElement.innerText = --count;
-                tooltipElement.innerText = count;
-            }
-        }
-
-        function addToCart(event, id) {
-            alert(`Item ${id} added to the collection!`);
-        }
-
-    </script>
+    </section>
 
 
     <!-- Add more product cards as needed, following the same structure -->
-
-    </div>
-    <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col items-center bg-cover bg-center"
-        style="background-image: url('/images/extrabg.jpg'); background-size: cover; background-attachment: fixed;">
-
-        <h2
-            class="text-4xl font-bold uppercase text-center text-orange-500 mb-8 bg-orange-100 p-4 rounded-lg shadow-md">
-            Used Dress Sale & Resale
+    <section class="text-center mb-10">
+        <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500 ">Used dress sale and resale
         </h2>
+        <p class="mt-4 text-gray-300 uppercase pb-10">Shop sustainably: buy and sell pre-loved dresses for less!
+        </p>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col items-center bg-cover bg-center"
+            style="background-image: url('/images/extrabg.jpg'); background-size: cover; background-attachment: fixed;">
 
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Left Side: Image -->
-            <div class="flex justify-center">
-                <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
-                    style="background-image: url('/images/used.jpg');"></div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Left Side: Image -->
+                <div class="flex justify-center">
+                    <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
+                        style="background-image: url('/images/used.jpg');"></div>
+                </div>
+                <!-- Right Side: Details -->
+                <div
+                    class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
+                    <p class="text-lg text-gray-200 mb-4">Explore our curated collection of pre-loved dresses, perfect
+                        for
+                        those looking to buy stylish outfits at affordable prices.</p>
+                    <p class="text-lg text-gray-200 mb-4">By purchasing second-hand, you’re contributing to
+                        sustainability
+                        and reducing waste.</p>
+                    <form action="/RealChat" method="GET">
+                        <button
+                            class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
+                            type="submit">
+                            Shop Now
+                        </button>
+                    </form>
+
+                </div>
             </div>
-            <!-- Right Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Explore our curated collection of pre-loved dresses, perfect for
-                    those looking to buy stylish outfits at affordable prices.</p>
-                <p class="text-lg text-gray-200 mb-4">By purchasing second-hand, you’re contributing to sustainability
-                    and reducing waste.</p>
-                <form action="/RealChat" method="GET">
+
+            <div class="grid md:grid-cols-2 gap-8 mt-16">
+                <!-- Left Side: Details -->
+                <div
+                    class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
+                    <p class="text-lg text-gray-200 mb-4">Looking to donate your dresses? Join us in making a difference
+                        by
+                        donating your gently used dresses for a good cause.</p>
+                    <p class="text-lg text-gray-200 mb-4">Your contribution can help someone in need while giving your
+                        dress
+                        a new life.</p>
+                    <form action="/scroll" method="GET">
+                        <button
+                            class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
+                            type="submit">
+                            Donate Now
+                        </button>
+                    </form>
+                </div>
+                <!-- Right Side: Image -->
+                <div class="flex justify-center">
+                    <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
+                        style="background-image: url('/images/donation.jpg');"></div>
+                </div>
+            </div>
+
+            <!-- New Section: Sustainable Fashion -->
+            <div class="grid md:grid-cols-2 gap-8 mt-16">
+                <!-- Left Side: Image -->
+                <div class="flex justify-center">
+                    <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
+                        style="background-image: url('/images/sus.jpg');"></div>
+                </div>
+                <!-- Right Side: Details -->
+                <div
+                    class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
+                    <p class="text-lg text-gray-200 mb-4">Embrace sustainable fashion by choosing second-hand dresses.
+                        Save
+                        money and help the planet.</p>
+                    <p class="text-lg text-gray-200 mb-4">Your style can make a statement while supporting eco-friendly
+                        practices.</p>
                     <button
-                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
+                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm mx-40"
                         type="submit">
-                        Shop Now
+                        Discover more
                     </button>
-                </form>
-
+                </div>
             </div>
+
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 mt-16">
-            <!-- Left Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Looking to donate your dresses? Join us in making a difference by
-                    donating your gently used dresses for a good cause.</p>
-                <p class="text-lg text-gray-200 mb-4">Your contribution can help someone in need while giving your dress
-                    a new life.</p>
-                <form action="/scroll" method="GET">
-                    <button
-                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
-                        type="submit">
-                        Donate Now
-                    </button>
-                </form>
-            </div>
-            <!-- Right Side: Image -->
-            <div class="flex justify-center">
-                <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
-                    style="background-image: url('/images/donation.jpg');"></div>
-            </div>
-        </div>
-
-        <!-- New Section: Sustainable Fashion -->
-        <div class="grid md:grid-cols-2 gap-8 mt-16">
-            <!-- Left Side: Image -->
-            <div class="flex justify-center">
-                <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
-                    style="background-image: url('/images/sus.jpg');"></div>
-            </div>
-            <!-- Right Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Embrace sustainable fashion by choosing second-hand dresses. Save
-                    money and help the planet.</p>
-                <p class="text-lg text-gray-200 mb-4">Your style can make a statement while supporting eco-friendly
-                    practices.</p>
-                <button
-                    class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm">
-                    Discover More
-                </button>
-            </div>
-        </div>
-
-    </div>
+    </section>
 
 
 
     <div class="map">
-        <h2 class="text-4xl font-bold uppercase text-center my-10 text-orange-500">Location</h2>
+        <h2 class="text-4xl font-bold uppercase text-center my-6 text-orange-500">Location</h2>
+        <p class=" text-gray-300 uppercase pb-10 text-center">Visit us at our store for a delightful offline
+            experience!
+        </p>
         <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10749.381974317792!2d77.5903259520513!3d12.972989944482016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1672fcfc6af1%3A0x9c2dc517c9231979!2sUVCE!5e0!3m2!1sen!2sin!4v1726765627401!5m2!1sen!2sin"
             width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"

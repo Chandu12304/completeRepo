@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Modal functionality (if required for viewing posts)
-    const newsItems = document.querySelectorAll('.news-item');
     newsItems.forEach(item => {
         item.addEventListener('click', function () {
             const title = this.querySelector('.news-title').textContent;
