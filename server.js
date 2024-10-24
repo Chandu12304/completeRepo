@@ -2,27 +2,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const dotenv = require('dotenv');  // Keep only this line
+const dotenv = require('dotenv');
 const session = require('express-session');
 const passport = require('./OAuth'); // Assuming you have a passport configuration in OAuth.js
 const multer = require('multer');
 const fs = require('fs');
 const { storeCategoryCount, getCategoryCount, deleteImage } = require('./controlers/routeControlers'); // Corrected import path
-const http = require('http'); // Importing the http module
-const socketIo = require('socket.io');
+const http = require('http');
 const cors = require('cors');
 const firebase = require('firebase/app');
 require('firebase/firestore');
 
 const admin = require('firebase-admin');
 
-// Your service account key file
-const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_KEY, 'base64').toString('utf8'));
-
 // Configure dotenv for environment variables
 dotenv.config();
 
 // Initialize Firebase Admin SDK
+const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_KEY, 'base64').toString('utf8'));
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
@@ -30,8 +27,7 @@ if (!admin.apps.length) {
     });
 }
 
-const firebaseConfig = process.env.FIREBASE_CONFIG
-
+const firebaseConfig = process.env.FIREBASE_CONFIG;
 firebase.initializeApp(firebaseConfig);
 
 const db = admin.firestore();
@@ -40,67 +36,69 @@ const db = admin.firestore();
 const app = express();
 
 // Create HTTP server using the Express app
-const server = http.createServer(app); // <-- You need to define the server
+const server = http.createServer(app);
 
 // Configure session middleware
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: false }
 }));
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Directory for EJS templates
+app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware
 app.use(cors());
-
-// Middleware for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
-// Middleware for parsing JSON data
 app.use(bodyParser.json());
-
-// Middleware to serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize Passport for authentication
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Set up multer storage
+// Multer storage setup for user-specific folders
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Directory to save uploaded files
+        if (!req.session || !req.session.user || !req.session.user.email) {
+            return cb(new Error('No user session found.'));
+        }
+
+        const userEmail = req.session.user.email.replace(/[^a-zA-Z0-9]/g, '_'); // sanitize email for folder naming
+        const userFolder = path.join(__dirname, 'uploads', userEmail);
+
+        // Create the user's folder if it doesn't exist
+        if (!fs.existsSync(userFolder)) {
+            fs.mkdirSync(userFolder, { recursive: true });
+        }
+
+        cb(null, userFolder);
     },
     filename: async (req, file, cb) => {
         try {
-            const category = req.body.category; // Get the selected category
-            console.log('Selected Category:', category); // Log the selected category
-
-            // Fetch the category count
+            const category = req.body.category;
+            const userEmail = req.session.user.email.replace(/[^a-zA-Z0-9]/g, '_');
             let count = await getCategoryCount(req, category);
-            count += 1; // Increment the count
-            console.log(`Updated count for category "${category}": ${count}`);
+            count += 1;
 
-            // Store the category count in Firestore
-            await storeCategoryCount(req, category, count); // Pass req to access the session
+            await storeCategoryCount(req, category, count);
 
-            // Generate the unique suffix and file name
             const uniqueSuffix = '-' + Date.now() + '-' + Math.round(Math.random() * 1000);
-            const fileName = `${category}-${count}${uniqueSuffix}${path.extname(file.originalname)}`; // Append category count and random suffix
+            const fileName = `${category}-${count}${uniqueSuffix}${path.extname(file.originalname)}`;
 
-            cb(null, fileName); // Pass the filename to the callback
+            cb(null, fileName);
         } catch (error) {
-            cb(error); // Pass any error to the callback
+            cb(error);
         }
-    },
+    }
 });
+
 
 // Create 'uploads' folder if it doesn't exist
 const dir = './uploads';
@@ -111,19 +109,17 @@ if (!fs.existsSync(dir)) {
 // Initialize multer for file uploads
 const upload = multer({ storage: storage });
 
-// Route for file upload
-app.post('/upload', upload.single('image'), (req, res) => {
-    res.json({ message: 'File uploaded successfully!', file: req.file });
-});
+// Export the upload middleware for use in routeHandlers.js
+module.exports = { upload };
 
 // Route for image deletion
 app.delete('/api/images/:imageName', deleteImage);
 
 // Route handlers middleware
-app.use("/", require("./routes/routeHandlers")); // Assuming routeHandlers is a file that handles your routes
+app.use("/", require("./routes/routeHandlers"));
 
 // Start the server
 const port = process.env.PORT || 8000;
-server.listen(port, () => { // Use 'server' here
-    console.log(`Server is running on port ${port}`);
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}/home`);
 });

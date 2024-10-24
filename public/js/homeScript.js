@@ -1,19 +1,24 @@
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const menuToggle = document.getElementById('menu-toggle');
     const menuItems = document.getElementById('menu-items');
     const mainContent = document.getElementById('maincnt');
-  
+
     if (menuToggle && menuItems) {
-        menuToggle.addEventListener('change', function() {
+        menuToggle.addEventListener('change', function () {
             if (this.checked) {
                 menuItems.style.display = 'block';
-                mainContent.style.display='none';
+                mainContent.style.display = 'none';
 
 
             } else {
                 menuItems.style.display = 'none';
-                mainContent.style.display='block';
+                mainContent.style.display = 'block';
             }
         });
     } else {
