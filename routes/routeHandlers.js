@@ -20,7 +20,6 @@ const {
     imagesFetcher
 } = require('../controlers/routeControlers');
 
-const passport = require('../OAuth');
 const { upload } = require('../server');  // Importing upload from server.js
 
 // Initialize the router
@@ -49,10 +48,6 @@ router.get('/changePassword', (req, res) => res.render('changePassword.ejs'));
 
 // Route-8: Handle password change
 router.post('/changePassword', changePassword);
-
-// OAuth route handlers for Google authentication
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/auth' }), OauthControllerFunction);
 
 // Route for chatbot functionality
 router.post('/chat-bot', chatbotControler);
