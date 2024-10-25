@@ -4,7 +4,6 @@ dotenv.config();
 const express = require('express');
 const {
     getAuthenticationPage,
-    saveUserData,
     handleLogin,
     getHomePage,
     verifyEmail,
@@ -14,7 +13,6 @@ const {
     feedbackControler,
     isAuthenticated,
     profileCreationController,
-    OauthControllerFunction,
     getDashboardPage,
     getUserProfileDetails,
     imagesFetcher
