@@ -15,7 +15,7 @@
     <style>
         .tooltip {
             position: absolute;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(208, 180, 180, 0.7);
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
@@ -52,8 +52,9 @@
             <a href="#home" class="text-white hover:text-orange-400">HOME</a>
             <span class="text-white">/</span>
             <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
-                class="text-white hover:text-orange-400" id="profile">PROFILE</a> <span>/</span>
-            <a href="#accessories" class="text-white hover:text-orange-400">ACCESSORIES</a>
+                class="text-white hover:text-orange-400" id="profile">PROFILE</a>
+            <span class="text-white">/</span>
+            <a href="#accessories" class="text-white hover:text-orange-400">COLLECTIONS</a>
             <span class="text-white">/</span>
             <a href="#contact" class="text-white hover:text-orange-400">CONTACT</a>
         </nav>
@@ -89,7 +90,7 @@
         <a href="#home" class=".margin-top text-white hover:text-orange-400">HOME</a>
         <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
             class="text-white hover:text-orange-400" id="profile">PROFILE</a>
-        <a href="#accessories" class="text-white hover:text-orange-400">ACCESSORIES</a>
+        <a href="#accesories" class="text-white hover:text-orange-400">COLLECTIONS</a>
         <a href="#contact" class="text-white hover:text-orange-400">CONTACT</a>
         <div class="flex items-center space-x-4">
             <form action="/auth" method="GET">
@@ -133,141 +134,156 @@
             <a href="#accessories" class="cta-button">SEE YOUR COLLECTIONS</a>
         </div>
     </main>
-    <div class="relative bg-cover bg-center py-16" style="background-image: url('./');">
+    <section id="accessories" class="py-10">
+        <div class="relative bg-cover bg-center py-16" style="background-image: url('./');">
 
-        <!-- Overlay to Darken the Background for Text Readability -->
-        <div class="absolute inset-0 opacity-50"></div>
+            <!-- Overlay to Darken the Background for Text Readability -->
+            <div class="absolute inset-0 opacity-50"></div>
 
-        <div class="relative max-w-7xl mx-auto px-4">
-            <!-- Header Section -->
-            <div class="text-center mb-10">
-                <div
-                    class="fixed bottom-4 left-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg flex items-center space-x-2 transition-transform transform hover:scale-105">
-                    <div class="flex-shrink-0">
-                        <!-- Icon (optional) -->
-                        <svg class="h-6 w-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M10 2a8 8 0 00-8 8v4h1v-4a7 7 0 0114 0v4h1v-4a8 8 0 00-8-8zM5 10a5 5 0 1110 0A5 5 0 015 10z" />
-                        </svg>
+            <div class="relative max-w-7xl mx-auto px-4">
+                <!-- Header Section -->
+                <div class="text-center mb-10">
+                    <div class="fixed bottom-4 left-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg flex items-center space-x-2 transition-transform transform hover:scale-105"
+                        style="z-index: 10;">
+                        <div class="flex-shrink-0">
+                            <!-- Icon (optional) -->
+                            <svg class="h-6 w-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10 2a8 8 0 00-8 8v4h1v-4a7 7 0 0114 0v4h1v-4a8 8 0 00-8-8zM5 10a5 5 0 1110 0A5 5 0 015 10z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-gray-800">Create your profile and open your wardrobe door!</p>
+                        </div>
+                        <button class="ml-2 text-orange-500 hover:text-orange-700 focus:outline-none"
+                            onclick="this.parentElement.style.display='none';">✕</button>
                     </div>
-                    <div>
-                        <p class="text-gray-800">Create your profile and open your wardrobe door!</p>
+
+                    <!-- Media query for small screens -->
+                    <style>
+                        @media (max-width: 640px) {
+                            .fixed.bottom-4.left-4 {
+                                bottom: 8rem;
+                                /* Push up to avoid overlapping with the chatbot icon */
+                                left: 1rem;
+                                right: 1rem;
+                                width: auto;
+                                /* Ensures that it scales properly on smaller screens */
+                            }
+
+                            .fixed.bottom-4.left-4 button {
+                                position: relative;
+                                /* Ensures the button stays in the flow */
+                                top: 0;
+                                /* Adjust button positioning if necessary */
+                            }
+                        }
+                    </style>
+
+                    <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500">Your Collection</h2>
+                    <p class="mt-4 text-gray-300 uppercase">Organize and customize your collection to elevate your
+                        wardrobe!
+                    </p>
+                </div>
+
+                <!-- Product Cards Section -->
+                <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Product Card 1 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/shirts.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Clothes</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-1"
+                                    class="text-orange-500">
+                                    <%= clothesCount %>
+                                </span></p>
+                        </div>
                     </div>
-                    <button class="ml-2 text-orange-500 hover:text-orange-700 focus:outline-none"
-                        onclick="this.parentElement.style.display='none';">✕</button>
+
+                    <!-- Product Card 2 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/gadgets.jpg" alt="Gadgets" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Gadgets</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-2"
+                                    class="text-orange-500">
+                                    <%= gadgetsCount %>
+                                </span></p>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
+                        <img src="/images/miscel.jpg" alt="Miscellaneous" class="w-full h-48 object-cover rounded">
+                        <div class="mt-4 text-center">
+                            <h3 class="text-lg font-semibold text-gray-300">Miscellaneous</h3>
+                            <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-3"
+                                    class="text-orange-500">
+                                    <%= miscCount %>
+                                </span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
+                        class="cta-button bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600">
+                        OPEN YOUR WARDROBE!
+                    </a>
                 </div>
 
             </div>
-            <div id="accessories" class="text-center">
-                <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500">Your Collection</h2>
-                <p class="mt-4 text-gray-300 uppercase mb-16">Organize and customize your collection to elevate your
-                    wardrobe!
-                </p>
-            </div>
-            <!-- Product Cards Section -->
-            <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Product Card 1 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/shirts.jpg" alt="Clothes" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Clothes</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-1"
-                                class="text-orange-500">
-                                <%= clothesCount %>
-                            </span></p>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/gadgets.jpg" alt="Gadgets" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Gadgets</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-2"
-                                class="text-orange-500">
-                                <%= gadgetsCount %>
-                            </span></p>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="bg-[#2d2d2d] shadow-lg rounded-lg p-6">
-                    <img src="/images/miscel.jpg" alt="Miscellaneous" class="w-full h-48 object-cover rounded">
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-300">Miscellaneous</h3>
-                        <p class="text-sm text-gray-400">Items in Collection: <span id="tooltip-count-3"
-                                class="text-orange-500">
-                                <%= miscCount %>
-                            </span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center mt-6">
-                <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
-                    class="cta-button bg-orange-500 text-white px-6 py-3 rounded hover:bg-orange-600">
-                    OPEN YOUR WARDROBE!
-                </a>
-            </div>
-
         </div>
-    </div>
+    </section>
+
 
     <!-- Add more product cards as needed, following the same structure -->
+    <section class="text-center mb-10">
+        <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500 ">Used dress sale and resale</h2>
+        <p class="mt-4 text-gray-300 uppercase pb-10">Shop sustainably: buy and sell pre-loved dresses for less!</p>
+    </section>
 
-    </div>
-    <div class="text-center">
-        <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500 mt-16">Used dress sale and resale
-        </h2>
-        <p class="mt-4 text-gray-300 uppercase pb-10 mb-6">Shop sustainably: buy and sell pre-loved dresses for less!
-        </p>
-    </div>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col items-center bg-cover bg-center"
+    <!-- Main container -->
+    <div class="max-w-7xl mx-auto py-16 flex flex-col items-center bg-cover bg-center"
         style="background-image: url('/images/extrabg.jpg'); background-size: cover; background-attachment: fixed;">
 
-        <div class="grid md:grid-cols-2 gap-8">
+        <div class="grid md:grid-cols-2 gap-8 w-full px-4 md:px-8">
             <!-- Left Side: Image -->
             <div class="flex justify-center">
                 <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
                     style="background-image: url('/images/used.jpg');"></div>
             </div>
+
             <!-- Right Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Explore our curated collection of pre-loved dresses, perfect
-                    for
+            <div
+                class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg shadow-lg px-4 py-8">
+                <p class="text-lg text-gray-200 mb-4">Explore our curated collection of pre-loved dresses, perfect for
                     those looking to buy stylish outfits at affordable prices.</p>
-                <p class="text-lg text-gray-200 mb-4">By purchasing second-hand, you’re contributing to
-                    sustainability
+                <p class="text-lg text-gray-200 mb-4">By purchasing second-hand, you’re contributing to sustainability
                     and reducing waste.</p>
                 <form action="/RealChat" method="GET">
                     <button
-                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
-                        type="submit">
-                        Shop Now
-                    </button>
+                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 rounded transition duration-300 text-sm"
+                        type="submit">Shop Now</button>
                 </form>
-
             </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 mt-16">
+        <div class="grid md:grid-cols-2 gap-8 mt-16 w-full px-4 md:px-8">
             <!-- Left Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Looking to donate your dresses? Join us in making a difference
-                    by
+            <div
+                class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg shadow-lg px-4 py-8">
+                <p class="text-lg text-gray-200 mb-4">Looking to donate your dresses? Join us in making a difference by
                     donating your gently used dresses for a good cause.</p>
-                <p class="text-lg text-gray-200 mb-4">Your contribution can help someone in need while giving your
-                    dress
+                <p class="text-lg text-gray-200 mb-4">Your contribution can help someone in need while giving your dress
                     a new life.</p>
                 <form action="/scroll" method="GET">
                     <button
-                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm"
-                        type="submit">
-                        Donate Now
-                    </button>
+                        class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 rounded transition duration-300 text-sm"
+                        type="submit">Donate Now</button>
                 </form>
             </div>
+
             <!-- Right Side: Image -->
             <div class="flex justify-center">
                 <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
@@ -276,24 +292,23 @@
         </div>
 
         <!-- New Section: Sustainable Fashion -->
-        <div class="grid md:grid-cols-2 gap-8 mt-16">
+        <div class="grid md:grid-cols-2 gap-8 mt-16 w-full px-4 md:px-8">
             <!-- Left Side: Image -->
             <div class="flex justify-center">
                 <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
                     style="background-image: url('/images/sus.jpg');"></div>
             </div>
+
             <!-- Right Side: Details -->
-            <div class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg">
-                <p class="text-lg text-gray-200 mb-4">Embrace sustainable fashion by choosing second-hand dresses.
-                    Save
+            <div
+                class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg shadow-lg px-4 py-8">
+                <p class="text-lg text-gray-200 mb-4">Embrace sustainable fashion by choosing second-hand dresses. Save
                     money and help the planet.</p>
                 <p class="text-lg text-gray-200 mb-4">Your style can make a statement while supporting eco-friendly
                     practices.</p>
                 <button
-                    class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-3 rounded transition duration-300 text-sm mx-40"
-                    type="submit">
-                    Discover more
-                </button>
+                    class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 rounded transition duration-300 text-sm"
+                    type="submit">Discover more</button>
             </div>
         </div>
 
@@ -301,8 +316,9 @@
 
 
 
+
     <div class="map">
-        <h2 class="text-4xl font-bold uppercase text-center my-10 text-orange-500">Location</h2>
+        <h2 class="text-4xl font-bold uppercase text-center my-6 text-orange-500">Location</h2>
         <p class=" text-gray-300 uppercase pb-10 text-center">Visit us at our store for a delightful offline
             experience!
         </p>
