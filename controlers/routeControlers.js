@@ -6,7 +6,6 @@ const dotenv = require('dotenv')
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const markdownToText = require('markdown-to-text').default; // Use .default to access the function
 const nodemailer = require('nodemailer');
-const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
@@ -287,33 +286,6 @@ const profileCreationController = async (req, res) => {
         res.status(500).send('An error occurred while creating the profile.');
     }
 
-}
-
-//Oauth controller
-const OauthControllerFunction = async (req, res) => {
-    // Store the user's email in the session
-    if (req.user && req.user.emails && req.user.emails.length > 0) {
-        const email = req.user.emails[0].value; // Get the first email from the profile
-
-        // Save the user's email in the Firestore 'users' collection
-        const result = await saveUserData(email); // Use the saveUserData function
-
-        if (result.errorMessage) {
-            // Handle existing user case, redirect to login or show a message
-            req.session.user = {
-                email: email,
-                name: req.user.displayName       // Optionally store the user's name
-            };
-        } else {
-            // New user created successfully, store user info in session
-            req.session.user = {
-                email: email,
-                name: req.user.displayName       // Optionally store the user's name
-            };
-        }
-    }
-    // Redirect to /main or wherever you want
-    res.redirect('/main');
 }
 
 //getDashboard
