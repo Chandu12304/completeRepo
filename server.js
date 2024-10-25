@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
 const session = require('express-session');
-const passport = require('./OAuth'); // Assuming you have a passport configuration in OAuth.js
 const multer = require('multer');
 const fs = require('fs');
 const { storeCategoryCount, getCategoryCount, deleteImage } = require('./controlers/routeControlers'); // Corrected import path
@@ -59,9 +58,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize Passport for authentication
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Multer storage setup for user-specific folders
 const storage = multer.diskStorage({
