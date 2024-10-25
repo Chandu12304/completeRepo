@@ -536,7 +536,6 @@ module.exports = {
     feedbackControler,
     isAuthenticated,
     profileCreationController,
-    OauthControllerFunction,
     getDashboardPage,
     getUserProfileDetails,
     imagesFetcher,
