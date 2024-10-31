@@ -114,5 +114,8 @@ app.delete('/api/images/:imageName', deleteImage);
 // Route handlers middleware
 app.use("/", require("./routes/routeHandlers"));
 
-// Export the Express app instead of listening on a port
-module.exports = app;
+// Start the server
+const port = process.env.PORT || 8000;
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}/home`);
+});
