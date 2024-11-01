@@ -17,7 +17,6 @@ const {
     getUserProfileDetails,
     imagesFetcher
 } = require('../controlers/routeControlers');
-
 const { upload } = require('../server');  // Importing upload from server.js
 
 // Initialize the router
@@ -46,6 +45,7 @@ router.get('/changePassword', (req, res) => res.render('changePassword.ejs'));
 
 // Route-8: Handle password change
 router.post('/changePassword', changePassword);
+
 
 // Route for chatbot functionality
 router.post('/chat-bot', chatbotControler);

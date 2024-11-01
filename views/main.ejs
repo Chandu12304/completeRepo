@@ -238,7 +238,7 @@
 
 
     <!-- Add more product cards as needed, following the same structure -->
-    <section class="text-center mb-10">
+    <section id="services" class="text-center mb-10">
         <div class="relative max-w-7xl mx-auto px-4"> <!-- Added container for same width -->
             <h2 class="text-4xl font-bold uppercase tracking-wide text-orange-500">Used dress sale and resale</h2>
             <p class="mt-4 text-gray-300 uppercase pb-10">Shop sustainably: buy and sell pre-loved dresses for less!</p>
@@ -273,7 +273,14 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 mt-16 w-full px-4 md:px-8">
+        <div
+            class="grid md:grid-cols-2 gap-8 mt-16 w-full px-4 md:px-8 md:flex-row md:space-x-4 md:space-y-0 flex flex-col-reverse">
+            <!-- Right Side: Image -->
+            <div class="flex justify-center">
+                <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
+                    style="background-image: url('/images/donation.jpg');"></div>
+            </div>
+
             <!-- Left Side: Details -->
             <div
                 class="flex flex-col justify-center text-center bg-gray-900 bg-opacity-80 rounded-lg shadow-lg px-4 py-8">
@@ -287,13 +294,8 @@
                         type="submit">Donate Now</button>
                 </form>
             </div>
-
-            <!-- Right Side: Image -->
-            <div class="flex justify-center">
-                <div class="w-full h-60 md:h-80 bg-cover bg-center rounded-lg shadow-lg"
-                    style="background-image: url('/images/donation.jpg');"></div>
-            </div>
         </div>
+
 
         <!-- New Section: Sustainable Fashion -->
         <div class="grid md:grid-cols-2 gap-8 mt-16 w-full px-4 md:px-8">
@@ -312,7 +314,7 @@
                     practices.</p>
                 <button
                     class="mt-4 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 rounded transition duration-300 text-sm"
-                    type="submit">Discover more</button>
+                    type="submit"><a href="/main">Discover more</a></button>
             </div>
         </div>
 
@@ -337,11 +339,10 @@
             <a href="#" class="Brand text-orange-500 hover:text-orange-600">Binary Coders</a>
             <ul class="footm">
                 <li><a href="#home">Home</a></li>
+                <a href="<%= profileExists ? '/html/afterLoginDashboard.html' : '/html/firstDashboard.html' %>"
+                    class="text-white hover:text-orange-400" id="profile">PROFILE</a>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#work">Works</a></li>
-                <li><a href="#latestnews">latest News</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#accessories">Collections</a></li>
             </ul>
             <ul class="media-icons">
                 <li><a href="#"><i class="fab fa-facebook"></i></a></li>
