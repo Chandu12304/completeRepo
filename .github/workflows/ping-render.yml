@@ -2,7 +2,7 @@ name: Keep Render Server Awake
 
 on:
   schedule:
-    # Runs every 14 minutes (Render free plan sleeps after 15 min of inactivity)
+    # Runs every 3 minutes 
     - cron: '*/3 * * * *'
   workflow_dispatch:  # Allows you to run the workflow manually from the GitHub UI
 
