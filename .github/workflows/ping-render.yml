@@ -1,0 +1,14 @@
+name: Keep Render Server Awake
+
+on:
+  schedule:
+    # Runs every 14 minutes (Render free plan sleeps after 15 min of inactivity)
+    - cron: '*/14 * * * *'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Render Server
+        run: |
+          curl --silent --show-error --fail https://completerepo.onrender.com/home || exit 1
