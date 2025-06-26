@@ -4,6 +4,7 @@ on:
   schedule:
     # Runs every 14 minutes (Render free plan sleeps after 15 min of inactivity)
     - cron: '*/14 * * * *'
+  workflow_dispatch:  # Allows you to run the workflow manually from the GitHub UI
 
 jobs:
   ping:
