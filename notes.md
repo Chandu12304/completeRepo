@@ -166,3 +166,124 @@ A: By using `express.static()` middleware, e.g., `app.use(express.static('public
 
 **Q15: How do you connect Node.js to a database?**  
 A: By using a database driver or ORM (like `mongoose` for MongoDB or `mysql` for MySQL), and initializing the connection in a config file.
+
+## Database Type
+
+- **Google Firestore (NoSQL, document-based)**
+
+---
+
+## Main Collections & Schemas
+
+### 1. `users` Collection
+
+- **Purpose:** Stores user authentication data.
+- **Document Structure:**
+  - `email` (string, unique)
+  - `password` (string, hashed; may be absent for Google-auth users)
+
+- **Example Document:**
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "$2b$10$hashedpassword"
+  }
+  ```
+
+---
+
+### 2. `profile` Collection
+
+- **Purpose:** Stores user profile information.
+- **Document ID:** User's email (ensures one profile per user)
+- **Document Structure:** (based on `profileData`)
+  - `email` (string)
+  - `name` (string)
+  - ...other profile fields (e.g., phone, address, etc. as per your form)
+
+- **Example Document:**
+  ```json
+  {
+    "email": "user@example.com",
+    "name": "John Doe",
+    "phone": "1234567890"
+  }
+  ```
+
+---
+
+### 3. `Accessories` Collection
+
+- **Purpose:** Stores item/category counts for each user.
+- **Structure:**
+  - **Collection:** `Accessories`
+    - **Document:** User's email (as document ID)
+      - **Subcollection:** `categories`
+        - **Document:** Category name (e.g., `clothes`, `gadgets`, `misc`)
+          - `category` (string)
+          - `count` (number)
+
+- **Example Structure:**
+  ```
+  Accessories (collection)
+    |
+    |-- user@example.com (document)
+         |
+         |-- categories (subcollection)
+               |
+               |-- clothes (document)
+               |     |-- category: "clothes"
+               |     |-- count: 3
+               |
+               |-- gadgets (document)
+               |     |-- category: "gadgets"
+               |     |-- count: 2
+               |
+               |-- misc (document)
+                     |-- category: "misc"
+                     |-- count: 1
+  ```
+
+---
+
+### 4. Uploaded Images
+
+- **Purpose:** Stores user-uploaded images on the server filesystem, not in Firestore.
+- **Structure:**  
+  - `/uploads/{user_email}/` contains all images uploaded by that user.
+  - Image filenames encode the category and a unique identifier, e.g., `clothes-1-1729810678581-66.png`.
+
+---
+
+## Relationships
+
+- **users ↔ profile:**  
+  - One-to-one (each user has one profile, matched by email).
+
+- **users ↔ Accessories:**  
+  - One-to-many (each user document in `Accessories` has a subcollection `categories` with multiple category documents).
+
+- **users ↔ uploads:**  
+  - One-to-many (each user has a folder of uploaded images, filenames encode category).
+
+---
+
+## ER Diagram (Textual)
+
+```
+[users] 1---1 [profile]
+   |
+   | 1
+   |
+   |---< [Accessories] >---< [categories]
+   |
+   |---< [uploads] (filesystem, not Firestore)
+```
+
+---
+
+## Notes
+
+- All relationships are managed via the user's email as the unique identifier.
+- Firestore is schemaless, but your code enforces structure by how it writes/reads documents.
+- No explicit foreign keys, but email is used to link data across collections.
